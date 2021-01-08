@@ -21,15 +21,26 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- HCodecs
 - linear
 
 library:
   source-dirs: src
 
 executables:
-  diatonic-exe:
+  diatonic-midi-test-exe:
     main:                Main.hs
-    source-dirs:         app
+    source-dirs:         app/diatonic-midi-test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - diatonic
+    
+  diatonic-gen-notes-exe:
+    main:                Main.hs
+    source-dirs:         app/diatonic-gen-notes
     ghc-options:
     - -threaded
     - -rtsopts
