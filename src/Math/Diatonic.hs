@@ -3,7 +3,7 @@
 
 module Math.Diatonic 
     ( module Linear, sort, sortV3, sortV4
-    , SemitoneNote(..), toFrequency, freqToSemitone
+    , toFrequency, freqToSemitone
     , findNoteFromSemitone, findIntervals, findHarmonics
     , toFrequency'
     , pick1, pick2, pick3, pick4
@@ -11,9 +11,9 @@ module Math.Diatonic
 
 import Data.List
 import Linear
+import Text.Read (readEither)
 
-newtype SemitoneNote = SemitoneNote Int
-    deriving (Eq, Integral, Ord, Show, Real, Num, Enum)
+import Math.Notes
 
 sortV2 :: Ord a => V2 a -> V2 a
 sortV2 (V2 a b) = V2 (min a b) (max a b)
@@ -43,8 +43,8 @@ findIntervals (V4 a b c d) =
         p4 = abs $ (c - d) / 2
     in [p1, p2, p3, p4]
 
-toFrequency :: SemitoneNote -> Double
-toFrequency s = 440*2**(fromIntegral s / 12)
+toFrequency :: Semitone -> Double
+toFrequency (Semitone s) = 440*2**(fromIntegral s / 12)
 
 pick1 :: Enum a => a -> a -> [V1 a]
 pick1 minv maxv = [ V1 x | x <- [minv..maxv]]
@@ -86,7 +86,7 @@ data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
 toFrequency' :: Num a => HarmonicValue a -> a
 toFrequency' (HarmonicValue (V3 a b c) loc) = 
     case loc of
-        HarmonicLeft -> c - b - a
+        HarmonicLeft -> abs $ c - b - a
         HarmonicMidLeft -> c - b + a
         HarmonicMidRight -> c + b - a
         HarmonicRight -> c + b + a
@@ -102,6 +102,8 @@ findHarmonics v = fmap (HarmonicValue $ sortV3 v) $ V4 HarmonicLeft HarmonicMidL
         d4 = c + b + a
     in V4 d1 d2 d3 d4
       -}
+
+
 
 notes :: [String]
 notes = ["a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"]
@@ -150,18 +152,13 @@ sumToProduct f1 f2 =
         p2 = m2 + p1
     in (p1,p2)
 
-noteNames :: [Char]
-noteNames = take 7 $ drop 2 $ cycle $ take 7 ['a'..]
-
-majorScaleIntervals :: [Int]
-majorScaleIntervals = [2,2,1,2,2,2,1]
-
+{-
 generateAccidentals :: [String]
 generateAccidentals = generateAccidentals' noteNames majorScaleIntervals
 
 generateAccidentals' :: [Char] -> [Int] -> [String]
 generateAccidentals' (n1:n2:ns) (2:is) = 
-    [pure n1, pure n1++"_sharp",pure n2++"_flat"] ++ generateAccidentals' (n2:ns) is
+    [pure n1, pure n1++"#",pure n2++"b"] ++ generateAccidentals' (n2:ns) is
 generateAccidentals' (n1:ns) (1:is) = 
     [pure n1] ++ generateAccidentals' ns is
 generateAccidentals' _ _ = []
@@ -181,3 +178,4 @@ pianoNoteSemitones =
         lowerSemitone = round $ freqToSemitone 16.34
         upperSemitone = round $ freqToSemitone 7902.13
     in [lowerSemitone..upperSemitone]
+    -}
