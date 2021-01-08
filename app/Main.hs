@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Math.Diatonic
 
 main :: IO ()
-main = someFunc
+main = print "nothing"

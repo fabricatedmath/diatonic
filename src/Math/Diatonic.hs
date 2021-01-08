@@ -1,6 +1,42 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TupleSections #-}
 
-module Lib where
+module Math.Diatonic (
+    sort, module Linear, 
+    findHarmonics, SemitoneNote(..), toFrequency, freqToSemitone
+    , findNoteFromSemitone
+    ) where
+
+import Data.List
+import Linear
+
+newtype SemitoneNote = SemitoneNote Int
+    deriving (Eq, Integral, Ord, Show, Real, Num, Enum)
+
+toFrequency :: SemitoneNote -> Double
+toFrequency s = 440*2**(fromIntegral s / 12)
+
+-- | Uses sum to product for 4 total frequency ratios.
+-- Takes 3 frequencies (a,b,c) and finds the 4 possible d value frequencies
+-- Such that the frequencies reduce down to a product of 4*cos(x*t)*cos(y*t)*cos(z*t)
+-- This phenomenon happens for the harmonic seventh chords
+findHarmonics :: Num a => V3 a -> V4 a
+findHarmonics (V3 a b c) = 
+    let d1 = abs $ a - b - c 
+        d2 = abs $ a + b - c
+        d3 = abs $ a - b + c
+        d4 = abs $ a + b + c
+    in V4 d1 d2 d3 d4
+
+notes :: [String]
+notes = ["a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"]
+
+findNoteFromSemitone :: (Integral a, Show a) => a -> String
+findNoteFromSemitone semitone = 
+    let noteName = notes !! noteNumber ++ show noteOctave
+        noteNumber = fromIntegral semitone `mod` 12
+        noteOctave = (fromIntegral $ semitone + 9) `div` 12 + 4
+    in noteName
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
