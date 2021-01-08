@@ -1,10 +1,12 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TupleSections #-}
 
-module Math.Diatonic (
-    sort, module Linear, 
-    findHarmonics, SemitoneNote(..), toFrequency, freqToSemitone
-    , findNoteFromSemitone
+module Math.Diatonic 
+    ( module Linear, sort, sortV3, sortV4
+    , SemitoneNote(..), toFrequency, freqToSemitone
+    , findNoteFromSemitone, findIntervals, findHarmonics
+    , toFrequency'
+    , pick1, pick2, pick3, pick4
     ) where
 
 import Data.List
@@ -13,20 +15,93 @@ import Linear
 newtype SemitoneNote = SemitoneNote Int
     deriving (Eq, Integral, Ord, Show, Real, Num, Enum)
 
+sortV2 :: Ord a => V2 a -> V2 a
+sortV2 (V2 a b) = V2 (min a b) (max a b)
+
+sortV3 :: Ord a => V3 a -> V3 a
+sortV3 (V3 a b c) = 
+    let
+        V2 a' b' = sortV2 $ V2 a b
+        V2 mina c' = sortV2 $ V2 a' c
+        V2 midb maxc = sortV2 $ V2 b' c'
+    in V3 mina midb maxc
+
+sortV4 :: Ord a => V4 a -> V4 a
+sortV4 (V4 a b c d) = 
+    let
+        V3 a' b' c' = sortV3 $ V3 a b c
+        V3 mina minb submaxc = sortV3 $ V3 a' b' d
+        V2 midc maxd = sortV2 $ V2 submaxc c'
+    in V4 mina minb midc maxd
+
+findIntervals :: Fractional a => V4 a -> [a]
+findIntervals (V4 a b c d) = 
+    let
+        p1 = abs $ (a + b) / 2
+        p2 = abs $ (a - b) / 2
+        p3 = abs $ (c + d) / 2
+        p4 = abs $ (c - d) / 2
+    in [p1, p2, p3, p4]
+
 toFrequency :: SemitoneNote -> Double
 toFrequency s = 440*2**(fromIntegral s / 12)
+
+pick1 :: Enum a => a -> a -> [V1 a]
+pick1 minv maxv = [ V1 x | x <- [minv..maxv]]
+
+pick2 :: Enum a => a -> a -> [V2 a]
+pick2 minv maxv = 
+    let p0 = maxv
+        p1 = pred p0
+    in [ (V2 x y) | x <- [minv..p1], y <- [succ x.. p0]]
+
+pick3 :: Enum a => a -> a -> [V3 a]
+pick3 minv maxv = 
+    let p0 = maxv
+        p1 = pred p0
+        p2 = pred p1
+    in [ (V3 x y z) | x <- [minv..p2], y <- [succ x..p1], z <- [succ y..p0]]
+
+pick4 :: Enum a => a -> a -> [V4 a]
+pick4 minv maxv = 
+    let p0 = maxv
+        p1 = pred p0
+        p2 = pred p1
+        p3 = pred p2
+    in [ (V4 x y z w) | x <- [minv..p3], y <- [succ x..p2], z <- [succ y..p1], w <- [succ z.. p0]]
 
 -- | Uses sum to product for 4 total frequency ratios.
 -- Takes 3 frequencies (a,b,c) and finds the 4 possible d value frequencies
 -- Such that the frequencies reduce down to a product of 4*cos(x*t)*cos(y*t)*cos(z*t)
 -- This phenomenon happens for the harmonic seventh chords
-findHarmonics :: Num a => V3 a -> V4 a
-findHarmonics (V3 a b c) = 
-    let d1 = abs $ a - b - c 
-        d2 = abs $ a + b - c
-        d3 = abs $ a - b + c
-        d4 = abs $ a + b + c
+-- 
+-- Test
+
+data HarmonicLocation = HarmonicLeft | HarmonicMidLeft | HarmonicMidRight | HarmonicRight
+    deriving Show
+
+data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
+    deriving Show
+
+toFrequency' :: Num a => HarmonicValue a -> a
+toFrequency' (HarmonicValue (V3 a b c) loc) = 
+    case loc of
+        HarmonicLeft -> c - b - a
+        HarmonicMidLeft -> c - b + a
+        HarmonicMidRight -> c + b - a
+        HarmonicRight -> c + b + a
+
+findHarmonics :: (Num a, Ord a) => V3 a -> V4 (HarmonicValue a)
+findHarmonics v = fmap (HarmonicValue $ sortV3 v) $ V4 HarmonicLeft HarmonicMidLeft HarmonicMidRight HarmonicRight
+{-
+    let 
+        (V3 a b c) = sortV3 v
+        d1 = c - b - a
+        d2 = c - b + a
+        d3 = c + b - a
+        d4 = c + b + a
     in V4 d1 d2 d3 d4
+      -}
 
 notes :: [String]
 notes = ["a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"]
@@ -37,9 +112,6 @@ findNoteFromSemitone semitone =
         noteNumber = fromIntegral semitone `mod` 12
         noteOctave = (fromIntegral $ semitone + 9) `div` 12 + 4
     in noteName
-
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
 
 class Frequency a where
     toFreq :: a -> Double
