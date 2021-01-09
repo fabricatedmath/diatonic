@@ -28,6 +28,16 @@ library:
   source-dirs: src
 
 executables:
+  diatonic-sandbox-exe:
+    main:                Main.hs
+    source-dirs:         app/diatonic-sandbox
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - diatonic
+
   diatonic-midi-test-exe:
     main:                Main.hs
     source-dirs:         app/diatonic-midi-test

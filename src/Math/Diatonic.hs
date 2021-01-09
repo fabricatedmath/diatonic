@@ -13,7 +13,7 @@ import Data.List
 import Linear
 import Text.Read (readEither)
 
-import Math.Notes
+import Math.Diatonic.Notes
 
 sortV2 :: Ord a => V2 a -> V2 a
 sortV2 (V2 a b) = V2 (min a b) (max a b)
