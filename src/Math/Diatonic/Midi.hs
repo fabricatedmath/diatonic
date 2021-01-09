@@ -6,19 +6,17 @@ import Codec.Midi
 
 chordToTrack :: Foldable t => t Int -> Track Ticks
 chordToTrack chords = 
-    let
+    concat
+        [ zipWith noteOn (0:repeat 0) . toList $ chords
+        , zipWith noteOff (240:repeat 0) . toList $ chords
+        ]
+    where
         noteOn time semitone = (time, NoteOn {channel = 0, key = semitone, velocity = 124})
         noteOff time semitone = (time, NoteOff {channel = 0, key = semitone, velocity = 124})
-    in 
-        concat
-        [ zipWith noteOn (0:repeat 0) . toList $ chords
-        , zipWith noteOff (1:repeat 0) . toList $ chords
-        ]
-
 
 midiChords :: Foldable t => [t Int] -> Midi
-midiChords chords = 
-    let
+midiChords chords = Midi fileType timeDiv [track0, track1]
+    where
         fileType = MultiTrack
         timeDiv = TicksPerBeat 480
         track0 = 
@@ -35,7 +33,3 @@ midiChords chords =
             ] <> concatMap chordToTrack chords <> 
             [ (0, TrackEnd)
             ]
-
-
-    in Midi fileType timeDiv [track0, track1]
-
