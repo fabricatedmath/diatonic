@@ -7,7 +7,7 @@ module Math.Diatonic.Notes where
 import Linear
 
 newtype Semitone = Semitone Int
-    deriving (Eq, Show, Num, Ord)
+    deriving (Enum, Eq, Show, Num, Ord)
 
 class PerfectSemitoneable a where
     toPerfectSemitone :: a -> Semitone

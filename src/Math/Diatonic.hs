@@ -10,6 +10,7 @@ module Math.Diatonic
     , Sortable(..), Frequency(..)
     ) where
 
+import Control.Arrow (second)
 import Data.Foldable
 import Linear
 import Text.Read (readEither)
@@ -116,11 +117,11 @@ data HarmonicLocation = HarmonicLeft | HarmonicMidLeft | HarmonicMidRight | Harm
 data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
     deriving Show
 
-findHarmonics' :: Frequencable a => V3 a -> [(Double, Semitone)]
+findHarmonics' :: V3 Semitone -> [(Double, V4 Semitone)]
 findHarmonics' v@(V3 a b c) = 
     let
         vh = fmap toFrequency' $ findHarmonics (fmap toFrequency v)
-    in concat $ fmap (toList . toImperfectSemitone) vh
+    in map (second (V4 a b c)) $ concat $ fmap (toList . toImperfectSemitone) vh
 
 
 toFrequency' :: Num a => HarmonicValue a -> a
@@ -132,7 +133,8 @@ toFrequency' (HarmonicValue (V3 a b c) loc) =
         HarmonicRight -> c + b + a
 
 findHarmonics :: (Num a, Ord a) => V3 a -> V4 (HarmonicValue a)
-findHarmonics v = fmap (HarmonicValue $ sortV3 v) $ V4 HarmonicLeft HarmonicMidLeft HarmonicMidRight HarmonicRight
+findHarmonics v = 
+    fmap (HarmonicValue $ sortV3 v) $ V4 HarmonicLeft HarmonicMidLeft HarmonicMidRight HarmonicRight
 {-
     let 
         (V3 a b c) = sortV3 v
