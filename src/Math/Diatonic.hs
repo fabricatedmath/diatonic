@@ -2,18 +2,54 @@
 {-# LANGUAGE TupleSections #-}
 
 module Math.Diatonic 
-    ( module Linear, sort, sortV3, sortV4
-    , toFrequency, freqToSemitone
-    , findNoteFromSemitone, findIntervals, findHarmonics
+    ( module Linear, sortV2, sortV3, sortV4
+    , toFrequency
+    , findNoteFromSemitone, findIntervals, findHarmonics, findHarmonics'
     , toFrequency'
     , pick1, pick2, pick3, pick4
+    , Sortable(..), Frequency(..)
     ) where
 
-import Data.List
+import Data.Foldable
 import Linear
 import Text.Read (readEither)
 
 import Math.Diatonic.Notes
+
+newtype Frequency = Frequency Double
+    deriving (Eq, Num, Ord)
+
+class Frequencable a where
+    toFrequency :: a -> Frequency
+
+instance Frequencable Frequency where
+    toFrequency = id
+
+instance Frequencable Semitone where
+    toFrequency (Semitone s) = Frequency $ 440*2**(fromIntegral s/12)
+
+-- can add close enough to zero check and Maybe?
+instance ImperfectSemitoneable Frequency where
+    toImperfectSemitone (Frequency f) = V2 lower upper
+        where 
+            sf = freqToSemitone f
+            lower = (sf - fromIntegral (floor sf), Semitone $ floor sf)
+            upper = (fromIntegral (ceiling sf) - sf, Semitone $ ceiling sf)
+
+            freqToSemitone :: Double -> Double
+            freqToSemitone f = (12*) $ logBase 2 (f/440)
+
+class Sortable a where
+    sort :: a -> a
+
+instance Ord a => Sortable (V2 a) where
+    sort = sortV2
+
+instance Ord a => Sortable (V3 a) where
+    sort = sortV3
+
+instance Ord a => Sortable (V4 a) where
+    sort = sortV4
 
 sortV2 :: Ord a => V2 a -> V2 a
 sortV2 (V2 a b) = V2 (min a b) (max a b)
@@ -42,9 +78,6 @@ findIntervals (V4 a b c d) =
         p3 = abs $ (c + d) / 2
         p4 = abs $ (c - d) / 2
     in [p1, p2, p3, p4]
-
-toFrequency :: Semitone -> Double
-toFrequency (Semitone s) = 440*2**(fromIntegral s / 12)
 
 pick1 :: Enum a => a -> a -> [V1 a]
 pick1 minv maxv = [ V1 x | x <- [minv..maxv]]
@@ -83,6 +116,13 @@ data HarmonicLocation = HarmonicLeft | HarmonicMidLeft | HarmonicMidRight | Harm
 data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
     deriving Show
 
+findHarmonics' :: Frequencable a => V3 a -> [(Double, Semitone)]
+findHarmonics' v@(V3 a b c) = 
+    let
+        vh = fmap toFrequency' $ findHarmonics (fmap toFrequency v)
+    in concat $ fmap (toList . toImperfectSemitone) vh
+
+
 toFrequency' :: Num a => HarmonicValue a -> a
 toFrequency' (HarmonicValue (V3 a b c) loc) = 
     case loc of
@@ -108,19 +148,19 @@ findHarmonics v = fmap (HarmonicValue $ sortV3 v) $ V4 HarmonicLeft HarmonicMidL
 notes :: [String]
 notes = ["a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"]
 
-findNoteFromSemitone :: (Integral a, Show a) => a -> String
-findNoteFromSemitone semitone = 
+findNoteFromSemitone :: Semitone -> String
+findNoteFromSemitone (Semitone semitone) = 
     let noteName = notes !! noteNumber ++ show noteOctave
         noteNumber = fromIntegral semitone `mod` 12
         noteOctave = (fromIntegral $ semitone + 9) `div` 12 + 4
     in noteName
 
+{-
 class Frequency a where
     toFreq :: a -> Double
     fromFreq :: Double -> a
+-}
 
-freqToSemitone :: Double -> Double
-freqToSemitone f = (12*) $ logBase 2 (f/440)
 
 seventh :: [Rational]
 seventh = [1, 5/4, 6/4, 7/4]
@@ -128,9 +168,11 @@ seventh = [1, 5/4, 6/4, 7/4]
 triad :: [Rational]
 triad = [1,5/4,6/4]
 
+{-
 instance Frequency Int where
     toFreq i = 2**(fromIntegral i/12) * 440
     fromFreq f = round $ (12*) $ logBase 2 (f/440)
+    -}
 
 sumToProduct2 :: (Fractional a, Ord a) => a -> a -> (a,a)
 sumToProduct2 f1 f2 = 

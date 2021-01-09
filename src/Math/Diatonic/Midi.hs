@@ -4,6 +4,19 @@ import Data.Foldable
 
 import Codec.Midi
 
+import Math.Diatonic.Notes
+
+newtype MidiSemitone = MidiSemitone Int
+
+class MidiSemitoneable a where
+    toMidiSemitone :: a -> MidiSemitone
+
+instance MidiSemitoneable Semitone where
+    toMidiSemitone (Semitone s) = MidiSemitone $ s + 57
+
+instance PerfectSemitoneable MidiSemitone where
+    toPerfectSemitone (MidiSemitone s) = Semitone $ s - 57
+
 chordToTrack :: Foldable t => t Int -> Track Ticks
 chordToTrack chords = 
     concat
