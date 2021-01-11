@@ -5,7 +5,7 @@ module Math.Diatonic.Harmonic
     ( module Linear
     , findNoteFromSemitone, findIntervals, findHarmonics
     , Sortable(..), Frequency(..), harmonicsWithError
-    , getHarmonic
+    , getHarmonic, getProducts
     ) where
 
 import Control.Arrow (second)
@@ -60,6 +60,15 @@ harmonicsWithError v@(V3 a b c) =
         vh :: V4 Frequency
         vh = fmap getHarmonic $ findHarmonics (fmap sToF v)
     in map (second (V4 a b c)) $ toList $ fmap (fToS') vh
+
+getProducts :: (Fractional a, Num a, Ord a) => HarmonicValue a -> V3 a
+getProducts (HarmonicValue (V3 a b c) loc) =
+    (/2) $ sortV3 $ case loc of
+            HarmonicLeft -> V3 (a+b) (c-b) (c-a)
+            HarmonicMidLeft -> V3 (b-a) (c+a) (c-b)
+            HarmonicMidRight -> V3 (b-a) (c+b) (c-a)
+            HarmonicRight -> V3 (a+b) (c+b) (c+a)
+
 
 getHarmonic :: Num a => HarmonicValue a -> a
 getHarmonic (HarmonicValue (V3 a b c) loc) = 
