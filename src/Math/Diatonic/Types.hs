@@ -7,7 +7,7 @@ import Control.Arrow (second)
 import Linear
 
 newtype Error = Error Int
-    deriving Show
+    deriving (Eq, Num, Ord, Show)
     
 notes :: [String]
 notes = ["a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"]
@@ -40,7 +40,7 @@ instance Show Frequency where
 newtype Semitone = 
     Semitone 
     { unSemitone :: Int
-    } deriving Num
+    } deriving (Eq, Ord, Num, Enum)
 
 instance Show Semitone where
     show (Semitone s) = "(" <> findNoteFromSemitone s <> ":" <> show s <> ")"

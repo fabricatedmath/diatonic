@@ -5,6 +5,7 @@ module Math.Diatonic.Harmonic
     ( module Linear
     , findNoteFromSemitone, findIntervals, findHarmonics
     , Sortable(..), Frequency(..), harmonicsWithError
+    , getHarmonic
     ) where
 
 import Control.Arrow (second)
@@ -51,6 +52,8 @@ data HarmonicLocation = HarmonicLeft | HarmonicMidLeft | HarmonicMidRight | Harm
 data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
     deriving Show
 
+
+-- TODO: add restriction for ratios and frequencies only
 harmonicsWithError :: V3 Semitone -> [(Error, V4 Semitone)]
 harmonicsWithError v@(V3 a b c) = 
     let
