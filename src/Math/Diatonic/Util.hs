@@ -2,6 +2,9 @@ module Math.Diatonic.Util where
 
 import Linear
 
+pick3Anchored :: Enum a => a -> a -> [V3 a]
+pick3Anchored anchor upperRange = map (\(V2 y z) -> V3 anchor y z) $ pick2 (succ anchor) upperRange
+
 pick1 :: Enum a => a -> a -> [V1 a]
 pick1 minv maxv = [ V1 x | x <- [minv..maxv]]
 

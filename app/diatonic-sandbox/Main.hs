@@ -2,6 +2,7 @@ module Main where
 
 import Control.Arrow
 
+import Data.Foldable
 import qualified Data.List as L
 import Data.Ord
 import GHC.Exts (the)
@@ -17,6 +18,21 @@ import Math.Diatonic.Midi
 import Math.Diatonic.Notes
 import Math.Diatonic.Types
 import Math.Diatonic.Util
+
+twoEqualNotes :: (Eq a, Foldable t) => t a -> Bool 
+twoEqualNotes = go . toList
+    where 
+        go (x:y:xs) | x == y = True
+                    | otherwise = go (y:xs)
+        go _ = False
+
+withinDistNotes :: (Eq a, Foldable t, Num a, Ord a) => a -> t a -> Bool 
+withinDistNotes d = go . toList
+    where 
+        go (x:y:xs) | x+d >= y = True
+                    | otherwise = go (y:xs)
+        go _ = False
+
 
 sortedNub :: (Ord a) => [a] -> [a]
 sortedNub = map the . L.group . L.sort
@@ -35,7 +51,7 @@ bestHarmonic triad =
 -}
 
 allBestHarmonics :: (Semitone,Semitone) -> [(Error, V4 Semitone)]
-allBestHarmonics  r@(lowRange, highRange) = filterOn snd r $ concatMap harmonicsWithError $ pick3 lowRange highRange
+allBestHarmonics  r@(lowRange, highRange) = filterOn snd r $ concatMap harmonicsWithError $ pick3Anchored lowRange highRange
 {-    where
         bestHarmonic :: V3 Semitone -> V4 Semitone
         bestHarmonic = snd . minimum . findHarmonics'
@@ -47,6 +63,9 @@ allHarmonics  r@(lowRange, highRange) = filterAndSortRange r $ concatMap findHar
         harmonic :: V3 Semitone -> V4 Semitone
         harmonic = snd . minimum . findHarmonics'
         -}
+
+sortedHarmonics :: [(Error, V4 Semitone)]
+sortedHarmonics = sortedNub $ map (first abs) $ map (second sortV4) $ allBestHarmonics (c5,c8)
 
 main :: IO ()
 main = 

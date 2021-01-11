@@ -6,7 +6,7 @@ import Control.Arrow (second)
 
 import Linear
 
-newtype Error = Error Int
+newtype Error = Error Double
     deriving (Eq, Num, Ord, Show)
     
 notes :: [String]
@@ -53,7 +53,7 @@ fToS' (Frequency f) =
     let
         x = frequencyToSemitone f
         wholePart = round x
-        decimalPart = round . (*100) $ x - fromIntegral wholePart
+        decimalPart = x - fromIntegral wholePart
     in (Error decimalPart, Semitone wholePart)
 
 sToF :: Semitone -> Frequency
