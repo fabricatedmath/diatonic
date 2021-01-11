@@ -29,6 +29,18 @@ pick4 minv maxv =
         p3 = pred p2
     in [ (V4 x y z w) | x <- [minv..p3], y <- [succ x..p2], z <- [succ y..p1], w <- [succ z.. p0]]
 
+class Sortable a where
+    sort :: a -> a
+
+instance Ord a => Sortable (V2 a) where
+    sort = sortV2
+
+instance Ord a => Sortable (V3 a) where
+    sort = sortV3
+
+instance Ord a => Sortable (V4 a) where
+    sort = sortV4
+    
 sortV2 :: Ord a => V2 a -> V2 a
 sortV2 (V2 a b) = V2 (min a b) (max a b)
 
