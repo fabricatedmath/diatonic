@@ -6,15 +6,7 @@ module Math.Diatonic.Notes where
 
 import Linear
 
-newtype Semitone = Semitone Int
-    deriving (Enum, Eq, Show, Num, Ord)
-
-class PerfectSemitoneable a where
-    toPerfectSemitone :: a -> Semitone
-
--- | Returns the two semitones that hug the frequency and the error
-class ImperfectSemitoneable a where
-    toImperfectSemitone :: a -> V2 (Double, Semitone)
+import Math.Diatonic.Types
 
 c0 :: Semitone
 c0 = Semitone (-57)

@@ -5,6 +5,7 @@ import Data.Foldable
 import Codec.Midi
 
 import Math.Diatonic.Notes
+import Math.Diatonic.Types
 
 newtype MidiSemitone = 
     MidiSemitone { unMidiSemitone :: Int }
@@ -15,8 +16,8 @@ class MidiSemitoneable a where
 instance MidiSemitoneable Semitone where
     toMidiSemitone (Semitone s) = MidiSemitone $ s + 57
 
-instance PerfectSemitoneable MidiSemitone where
-    toPerfectSemitone (MidiSemitone s) = Semitone $ s - 57
+instance MidiSemitoneable Frequency where
+    toMidiSemitone = toMidiSemitone . fToS
 
 type Duration = Int
 
