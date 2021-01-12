@@ -16,21 +16,23 @@ import System.Random.Shuffle
 import Math.Diatonic.Harmonic
 import Math.Diatonic.Midi
 import Math.Diatonic.Notes
-import Math.Diatonic.Types
+import Math.Diatonic.Semitone
 import Math.Diatonic.Util
 
 twoEqualNotes :: (Eq a, Foldable t) => t a -> Bool 
 twoEqualNotes = go . toList
     where 
-        go (x:y:xs) | x == y = True
-                    | otherwise = go (y:xs)
+        go (x:y:xs) 
+            | x == y = True
+            | otherwise = go (y:xs)
         go _ = False
 
 withinDistNotes :: (Eq a, Foldable t, Num a, Ord a) => a -> t a -> Bool 
 withinDistNotes d = go . toList
     where 
-        go (x:y:xs) | x+d >= y = True
-                    | otherwise = go (y:xs)
+        go (x:y:xs) 
+            | x+d >= y = True
+            | otherwise = go (y:xs)
         go _ = False
 
 
@@ -42,29 +44,13 @@ filterAndSortRange (minv,maxv) = sortedNub . map sort . filter (\v -> all (>= mi
 
 filterOn :: (Foldable t, Ord a, Ord (t a), Sortable (t a)) => (b -> t a) -> (a,a) -> [b] -> [b]
 filterOn accessor (minv,maxv) = filter inRange
-    where
-        inRange b = let v = accessor b in all (>= minv) v && all (<= maxv) v
-{-
-bestHarmonic :: V3 a -> V4 a
-bestHarmonic triad = 
-    fmap toFrequency' $ findHarmonics triad
--}
+    where inRange b = let v = accessor b in all (>= minv) v && all (<= maxv) v
 
-allBestHarmonics :: (Semitone,Semitone) -> [(Error, V4 Semitone)]
-allBestHarmonics  r@(lowRange, highRange) = filterOn snd r $ concatMap harmonicsWithError $ pick3Anchored lowRange highRange
-{-    where
-        bestHarmonic :: V3 Semitone -> V4 Semitone
-        bestHarmonic = snd . minimum . findHarmonics'
-        -}
-{-
-allHarmonics :: (Semitone,Semitone) -> [(Double, V4 Semitone)]
-allHarmonics  r@(lowRange, highRange) = filterAndSortRange r $ concatMap findHarmonics' $ pick3 lowRange highRange
-    where
-        harmonic :: V3 Semitone -> V4 Semitone
-        harmonic = snd . minimum . findHarmonics'
-        -}
+allBestHarmonics :: (Semitone,Semitone) -> [(Double, V4 Semitone)]
+allBestHarmonics  r@(lowRange, highRange) = filterOn snd r $ concatMap (toList . harmonicsWithError) semitones 
+    where semitones = fmap semitone' <$> pick3Anchored 0 24
 
-sortedHarmonics :: [(Error, V4 Semitone)]
+sortedHarmonics :: [(Double, V4 Semitone)]
 sortedHarmonics = sortedNub $ map (first abs) $ map (second sortV4) $ allBestHarmonics (c5,c8)
 
 main :: IO ()

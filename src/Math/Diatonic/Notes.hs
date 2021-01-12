@@ -6,572 +6,572 @@ module Math.Diatonic.Notes where
 
 import Linear
 
-import Math.Diatonic.Types
+import Math.Diatonic.Semitone
 
 c0 :: Semitone
-c0 = Semitone (-57)
+c0 = semitone (-57)
 
 cs0 :: Semitone
-cs0 = Semitone (-56)
+cs0 = semitone (-56)
 
 db0 :: Semitone
-db0 = Semitone (-56)
+db0 = semitone (-56)
 
 d0 :: Semitone
-d0 = Semitone (-55)
+d0 = semitone (-55)
 
 ds0 :: Semitone
-ds0 = Semitone (-54)
+ds0 = semitone (-54)
 
 eb0 :: Semitone
-eb0 = Semitone (-54)
+eb0 = semitone (-54)
 
 e0 :: Semitone
-e0 = Semitone (-53)
+e0 = semitone (-53)
 
 es0 :: Semitone
-es0 = Semitone (-52)
+es0 = semitone (-52)
 
 fb0 :: Semitone
-fb0 = Semitone (-53)
+fb0 = semitone (-53)
 
 f0 :: Semitone
-f0 = Semitone (-52)
+f0 = semitone (-52)
 
 fs0 :: Semitone
-fs0 = Semitone (-51)
+fs0 = semitone (-51)
 
 gb0 :: Semitone
-gb0 = Semitone (-51)
+gb0 = semitone (-51)
 
 g0 :: Semitone
-g0 = Semitone (-50)
+g0 = semitone (-50)
 
 gs0 :: Semitone
-gs0 = Semitone (-49)
+gs0 = semitone (-49)
 
 ab0 :: Semitone
-ab0 = Semitone (-49)
+ab0 = semitone (-49)
 
 a0 :: Semitone
-a0 = Semitone (-48)
+a0 = semitone (-48)
 
 as0 :: Semitone
-as0 = Semitone (-47)
+as0 = semitone (-47)
 
 bb0 :: Semitone
-bb0 = Semitone (-47)
+bb0 = semitone (-47)
 
 b0 :: Semitone
-b0 = Semitone (-46)
+b0 = semitone (-46)
 
 bs0 :: Semitone
-bs0 = Semitone (-45)
+bs0 = semitone (-45)
 
 cb0 :: Semitone
-cb0 = Semitone (-46)
+cb0 = semitone (-46)
 
 c1 :: Semitone
-c1 = Semitone (-45)
+c1 = semitone (-45)
 
 cs1 :: Semitone
-cs1 = Semitone (-44)
+cs1 = semitone (-44)
 
 db1 :: Semitone
-db1 = Semitone (-44)
+db1 = semitone (-44)
 
 d1 :: Semitone
-d1 = Semitone (-43)
+d1 = semitone (-43)
 
 ds1 :: Semitone
-ds1 = Semitone (-42)
+ds1 = semitone (-42)
 
 eb1 :: Semitone
-eb1 = Semitone (-42)
+eb1 = semitone (-42)
 
 e1 :: Semitone
-e1 = Semitone (-41)
+e1 = semitone (-41)
 
 es1 :: Semitone
-es1 = Semitone (-40)
+es1 = semitone (-40)
 
 fb1 :: Semitone
-fb1 = Semitone (-41)
+fb1 = semitone (-41)
 
 f1 :: Semitone
-f1 = Semitone (-40)
+f1 = semitone (-40)
 
 fs1 :: Semitone
-fs1 = Semitone (-39)
+fs1 = semitone (-39)
 
 gb1 :: Semitone
-gb1 = Semitone (-39)
+gb1 = semitone (-39)
 
 g1 :: Semitone
-g1 = Semitone (-38)
+g1 = semitone (-38)
 
 gs1 :: Semitone
-gs1 = Semitone (-37)
+gs1 = semitone (-37)
 
 ab1 :: Semitone
-ab1 = Semitone (-37)
+ab1 = semitone (-37)
 
 a1 :: Semitone
-a1 = Semitone (-36)
+a1 = semitone (-36)
 
 as1 :: Semitone
-as1 = Semitone (-35)
+as1 = semitone (-35)
 
 bb1 :: Semitone
-bb1 = Semitone (-35)
+bb1 = semitone (-35)
 
 b1 :: Semitone
-b1 = Semitone (-34)
+b1 = semitone (-34)
 
 bs1 :: Semitone
-bs1 = Semitone (-33)
+bs1 = semitone (-33)
 
 cb1 :: Semitone
-cb1 = Semitone (-34)
+cb1 = semitone (-34)
 
 c2 :: Semitone
-c2 = Semitone (-33)
+c2 = semitone (-33)
 
 cs2 :: Semitone
-cs2 = Semitone (-32)
+cs2 = semitone (-32)
 
 db2 :: Semitone
-db2 = Semitone (-32)
+db2 = semitone (-32)
 
 d2 :: Semitone
-d2 = Semitone (-31)
+d2 = semitone (-31)
 
 ds2 :: Semitone
-ds2 = Semitone (-30)
+ds2 = semitone (-30)
 
 eb2 :: Semitone
-eb2 = Semitone (-30)
+eb2 = semitone (-30)
 
 e2 :: Semitone
-e2 = Semitone (-29)
+e2 = semitone (-29)
 
 es2 :: Semitone
-es2 = Semitone (-28)
+es2 = semitone (-28)
 
 fb2 :: Semitone
-fb2 = Semitone (-29)
+fb2 = semitone (-29)
 
 f2 :: Semitone
-f2 = Semitone (-28)
+f2 = semitone (-28)
 
 fs2 :: Semitone
-fs2 = Semitone (-27)
+fs2 = semitone (-27)
 
 gb2 :: Semitone
-gb2 = Semitone (-27)
+gb2 = semitone (-27)
 
 g2 :: Semitone
-g2 = Semitone (-26)
+g2 = semitone (-26)
 
 gs2 :: Semitone
-gs2 = Semitone (-25)
+gs2 = semitone (-25)
 
 ab2 :: Semitone
-ab2 = Semitone (-25)
+ab2 = semitone (-25)
 
 a2 :: Semitone
-a2 = Semitone (-24)
+a2 = semitone (-24)
 
 as2 :: Semitone
-as2 = Semitone (-23)
+as2 = semitone (-23)
 
 bb2 :: Semitone
-bb2 = Semitone (-23)
+bb2 = semitone (-23)
 
 b2 :: Semitone
-b2 = Semitone (-22)
+b2 = semitone (-22)
 
 bs2 :: Semitone
-bs2 = Semitone (-21)
+bs2 = semitone (-21)
 
 cb2 :: Semitone
-cb2 = Semitone (-22)
+cb2 = semitone (-22)
 
 c3 :: Semitone
-c3 = Semitone (-21)
+c3 = semitone (-21)
 
 cs3 :: Semitone
-cs3 = Semitone (-20)
+cs3 = semitone (-20)
 
 db3 :: Semitone
-db3 = Semitone (-20)
+db3 = semitone (-20)
 
 d3 :: Semitone
-d3 = Semitone (-19)
+d3 = semitone (-19)
 
 ds3 :: Semitone
-ds3 = Semitone (-18)
+ds3 = semitone (-18)
 
 eb3 :: Semitone
-eb3 = Semitone (-18)
+eb3 = semitone (-18)
 
 e3 :: Semitone
-e3 = Semitone (-17)
+e3 = semitone (-17)
 
 es3 :: Semitone
-es3 = Semitone (-16)
+es3 = semitone (-16)
 
 fb3 :: Semitone
-fb3 = Semitone (-17)
+fb3 = semitone (-17)
 
 f3 :: Semitone
-f3 = Semitone (-16)
+f3 = semitone (-16)
 
 fs3 :: Semitone
-fs3 = Semitone (-15)
+fs3 = semitone (-15)
 
 gb3 :: Semitone
-gb3 = Semitone (-15)
+gb3 = semitone (-15)
 
 g3 :: Semitone
-g3 = Semitone (-14)
+g3 = semitone (-14)
 
 gs3 :: Semitone
-gs3 = Semitone (-13)
+gs3 = semitone (-13)
 
 ab3 :: Semitone
-ab3 = Semitone (-13)
+ab3 = semitone (-13)
 
 a3 :: Semitone
-a3 = Semitone (-12)
+a3 = semitone (-12)
 
 as3 :: Semitone
-as3 = Semitone (-11)
+as3 = semitone (-11)
 
 bb3 :: Semitone
-bb3 = Semitone (-11)
+bb3 = semitone (-11)
 
 b3 :: Semitone
-b3 = Semitone (-10)
+b3 = semitone (-10)
 
 bs3 :: Semitone
-bs3 = Semitone (-9)
+bs3 = semitone (-9)
 
 cb3 :: Semitone
-cb3 = Semitone (-10)
+cb3 = semitone (-10)
 
 c4 :: Semitone
-c4 = Semitone (-9)
+c4 = semitone (-9)
 
 cs4 :: Semitone
-cs4 = Semitone (-8)
+cs4 = semitone (-8)
 
 db4 :: Semitone
-db4 = Semitone (-8)
+db4 = semitone (-8)
 
 d4 :: Semitone
-d4 = Semitone (-7)
+d4 = semitone (-7)
 
 ds4 :: Semitone
-ds4 = Semitone (-6)
+ds4 = semitone (-6)
 
 eb4 :: Semitone
-eb4 = Semitone (-6)
+eb4 = semitone (-6)
 
 e4 :: Semitone
-e4 = Semitone (-5)
+e4 = semitone (-5)
 
 es4 :: Semitone
-es4 = Semitone (-4)
+es4 = semitone (-4)
 
 fb4 :: Semitone
-fb4 = Semitone (-5)
+fb4 = semitone (-5)
 
 f4 :: Semitone
-f4 = Semitone (-4)
+f4 = semitone (-4)
 
 fs4 :: Semitone
-fs4 = Semitone (-3)
+fs4 = semitone (-3)
 
 gb4 :: Semitone
-gb4 = Semitone (-3)
+gb4 = semitone (-3)
 
 g4 :: Semitone
-g4 = Semitone (-2)
+g4 = semitone (-2)
 
 gs4 :: Semitone
-gs4 = Semitone (-1)
+gs4 = semitone (-1)
 
 ab4 :: Semitone
-ab4 = Semitone (-1)
+ab4 = semitone (-1)
 
 a4 :: Semitone
-a4 = Semitone 0
+a4 = semitone 0
 
 as4 :: Semitone
-as4 = Semitone 1
+as4 = semitone 1
 
 bb4 :: Semitone
-bb4 = Semitone 1
+bb4 = semitone 1
 
 b4 :: Semitone
-b4 = Semitone 2
+b4 = semitone 2
 
 bs4 :: Semitone
-bs4 = Semitone 3
+bs4 = semitone 3
 
 cb4 :: Semitone
-cb4 = Semitone 2
+cb4 = semitone 2
 
 c5 :: Semitone
-c5 = Semitone 3
+c5 = semitone 3
 
 cs5 :: Semitone
-cs5 = Semitone 4
+cs5 = semitone 4
 
 db5 :: Semitone
-db5 = Semitone 4
+db5 = semitone 4
 
 d5 :: Semitone
-d5 = Semitone 5
+d5 = semitone 5
 
 ds5 :: Semitone
-ds5 = Semitone 6
+ds5 = semitone 6
 
 eb5 :: Semitone
-eb5 = Semitone 6
+eb5 = semitone 6
 
 e5 :: Semitone
-e5 = Semitone 7
+e5 = semitone 7
 
 es5 :: Semitone
-es5 = Semitone 8
+es5 = semitone 8
 
 fb5 :: Semitone
-fb5 = Semitone 7
+fb5 = semitone 7
 
 f5 :: Semitone
-f5 = Semitone 8
+f5 = semitone 8
 
 fs5 :: Semitone
-fs5 = Semitone 9
+fs5 = semitone 9
 
 gb5 :: Semitone
-gb5 = Semitone 9
+gb5 = semitone 9
 
 g5 :: Semitone
-g5 = Semitone 10
+g5 = semitone 10
 
 gs5 :: Semitone
-gs5 = Semitone 11
+gs5 = semitone 11
 
 ab5 :: Semitone
-ab5 = Semitone 11
+ab5 = semitone 11
 
 a5 :: Semitone
-a5 = Semitone 12
+a5 = semitone 12
 
 as5 :: Semitone
-as5 = Semitone 13
+as5 = semitone 13
 
 bb5 :: Semitone
-bb5 = Semitone 13
+bb5 = semitone 13
 
 b5 :: Semitone
-b5 = Semitone 14
+b5 = semitone 14
 
 bs5 :: Semitone
-bs5 = Semitone 15
+bs5 = semitone 15
 
 cb5 :: Semitone
-cb5 = Semitone 14
+cb5 = semitone 14
 
 c6 :: Semitone
-c6 = Semitone 15
+c6 = semitone 15
 
 cs6 :: Semitone
-cs6 = Semitone 16
+cs6 = semitone 16
 
 db6 :: Semitone
-db6 = Semitone 16
+db6 = semitone 16
 
 d6 :: Semitone
-d6 = Semitone 17
+d6 = semitone 17
 
 ds6 :: Semitone
-ds6 = Semitone 18
+ds6 = semitone 18
 
 eb6 :: Semitone
-eb6 = Semitone 18
+eb6 = semitone 18
 
 e6 :: Semitone
-e6 = Semitone 19
+e6 = semitone 19
 
 es6 :: Semitone
-es6 = Semitone 20
+es6 = semitone 20
 
 fb6 :: Semitone
-fb6 = Semitone 19
+fb6 = semitone 19
 
 f6 :: Semitone
-f6 = Semitone 20
+f6 = semitone 20
 
 fs6 :: Semitone
-fs6 = Semitone 21
+fs6 = semitone 21
 
 gb6 :: Semitone
-gb6 = Semitone 21
+gb6 = semitone 21
 
 g6 :: Semitone
-g6 = Semitone 22
+g6 = semitone 22
 
 gs6 :: Semitone
-gs6 = Semitone 23
+gs6 = semitone 23
 
 ab6 :: Semitone
-ab6 = Semitone 23
+ab6 = semitone 23
 
 a6 :: Semitone
-a6 = Semitone 24
+a6 = semitone 24
 
 as6 :: Semitone
-as6 = Semitone 25
+as6 = semitone 25
 
 bb6 :: Semitone
-bb6 = Semitone 25
+bb6 = semitone 25
 
 b6 :: Semitone
-b6 = Semitone 26
+b6 = semitone 26
 
 bs6 :: Semitone
-bs6 = Semitone 27
+bs6 = semitone 27
 
 cb6 :: Semitone
-cb6 = Semitone 26
+cb6 = semitone 26
 
 c7 :: Semitone
-c7 = Semitone 27
+c7 = semitone 27
 
 cs7 :: Semitone
-cs7 = Semitone 28
+cs7 = semitone 28
 
 db7 :: Semitone
-db7 = Semitone 28
+db7 = semitone 28
 
 d7 :: Semitone
-d7 = Semitone 29
+d7 = semitone 29
 
 ds7 :: Semitone
-ds7 = Semitone 30
+ds7 = semitone 30
 
 eb7 :: Semitone
-eb7 = Semitone 30
+eb7 = semitone 30
 
 e7 :: Semitone
-e7 = Semitone 31
+e7 = semitone 31
 
 es7 :: Semitone
-es7 = Semitone 32
+es7 = semitone 32
 
 fb7 :: Semitone
-fb7 = Semitone 31
+fb7 = semitone 31
 
 f7 :: Semitone
-f7 = Semitone 32
+f7 = semitone 32
 
 fs7 :: Semitone
-fs7 = Semitone 33
+fs7 = semitone 33
 
 gb7 :: Semitone
-gb7 = Semitone 33
+gb7 = semitone 33
 
 g7 :: Semitone
-g7 = Semitone 34
+g7 = semitone 34
 
 gs7 :: Semitone
-gs7 = Semitone 35
+gs7 = semitone 35
 
 ab7 :: Semitone
-ab7 = Semitone 35
+ab7 = semitone 35
 
 a7 :: Semitone
-a7 = Semitone 36
+a7 = semitone 36
 
 as7 :: Semitone
-as7 = Semitone 37
+as7 = semitone 37
 
 bb7 :: Semitone
-bb7 = Semitone 37
+bb7 = semitone 37
 
 b7 :: Semitone
-b7 = Semitone 38
+b7 = semitone 38
 
 bs7 :: Semitone
-bs7 = Semitone 39
+bs7 = semitone 39
 
 cb7 :: Semitone
-cb7 = Semitone 38
+cb7 = semitone 38
 
 c8 :: Semitone
-c8 = Semitone 39
+c8 = semitone 39
 
 cs8 :: Semitone
-cs8 = Semitone 40
+cs8 = semitone 40
 
 db8 :: Semitone
-db8 = Semitone 40
+db8 = semitone 40
 
 d8 :: Semitone
-d8 = Semitone 41
+d8 = semitone 41
 
 ds8 :: Semitone
-ds8 = Semitone 42
+ds8 = semitone 42
 
 eb8 :: Semitone
-eb8 = Semitone 42
+eb8 = semitone 42
 
 e8 :: Semitone
-e8 = Semitone 43
+e8 = semitone 43
 
 es8 :: Semitone
-es8 = Semitone 44
+es8 = semitone 44
 
 fb8 :: Semitone
-fb8 = Semitone 43
+fb8 = semitone 43
 
 f8 :: Semitone
-f8 = Semitone 44
+f8 = semitone 44
 
 fs8 :: Semitone
-fs8 = Semitone 45
+fs8 = semitone 45
 
 gb8 :: Semitone
-gb8 = Semitone 45
+gb8 = semitone 45
 
 g8 :: Semitone
-g8 = Semitone 46
+g8 = semitone 46
 
 gs8 :: Semitone
-gs8 = Semitone 47
+gs8 = semitone 47
 
 ab8 :: Semitone
-ab8 = Semitone 47
+ab8 = semitone 47
 
 a8 :: Semitone
-a8 = Semitone 48
+a8 = semitone 48
 
 as8 :: Semitone
-as8 = Semitone 49
+as8 = semitone 49
 
 bb8 :: Semitone
-bb8 = Semitone 49
+bb8 = semitone 49
 
 b8 :: Semitone
-b8 = Semitone 50
+b8 = semitone 50
 
 bs8 :: Semitone
-bs8 = Semitone 51
+bs8 = semitone 51
 
 cb8 :: Semitone
-cb8 = Semitone 50
+cb8 = semitone 50
 
