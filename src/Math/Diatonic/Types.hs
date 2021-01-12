@@ -65,6 +65,9 @@ sToF' s = Frequency $ 440*2**(s/12)
 shift :: Frequency -> Semitone -> Frequency
 shift (Frequency f) (Semitone s) = Frequency $ f*2**(fromIntegral s/12)
 
+shift' :: Semitone -> Frequency -> Frequency
+shift' = flip shift
+
 (.+) :: Semitone -> Frequency -> Frequency
 (.+) = flip shift
 

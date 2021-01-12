@@ -3,9 +3,9 @@
 
 module Math.Diatonic.Harmonic
     ( module Linear
-    , findNoteFromSemitone, findHarmonics
-    , Sortable(..), Frequency(..), harmonicsWithError
-    , getHarmonic, getProducts
+    , findHarmonics
+    , harmonicsWithError
+    , getHarmonic, getProducts, HarmonicValue(..), HarmonicLocation(..)
     ) where
 
 import Control.Arrow (second)
