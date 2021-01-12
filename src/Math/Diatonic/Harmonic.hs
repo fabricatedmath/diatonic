@@ -7,6 +7,7 @@ module Math.Diatonic.Harmonic
     , harmonics
     , harmonicValue, harmonicProducts
     , harmonicsWithError -- , harmonicTension
+    , productToSum
     ) where
 
 import Control.Arrow ((&&&))
@@ -102,3 +103,12 @@ harmonicProducts (HarmonicValue (V3 a b c) loc) =
         HarmonicMidLeft -> V3 (b-a) (c+a) (c-b)
         HarmonicMidRight -> V3 (b-a) (c+b) (c-a)
         HarmonicRight -> V3 (a+b) (c+b) (c+a)
+
+harmonicProductToSum :: Num a => V3 a -> V4 a
+harmonicProductToSum (V3 a b c) = V4 f1 f2 f3 f4
+    where
+        f1 = abs $ c - b - a
+        f2 = c - b + a
+        f3 = c + b - a
+        f4 = c + b + a
+
