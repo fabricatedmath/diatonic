@@ -7,7 +7,7 @@ module Math.Diatonic.Harmonic
     , harmonics
     , harmonicValue, harmonicProducts
     , harmonicsWithError -- , harmonicTension
-    , productToSum
+    , harmonicProductToSum
     ) where
 
 import Control.Arrow ((&&&))
