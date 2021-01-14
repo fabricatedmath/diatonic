@@ -4,8 +4,13 @@ module Math.Diatonic.Semitone where
 
 import Linear
 
+import Text.Printf
+
 newtype Semitone = Semitone Double
-    deriving (Show, Num, Fractional, Ord, Eq)
+    deriving (Num, Fractional, Ord, Eq)
+
+instance Show Semitone where
+    show semitone = "(" <> findNote semitone <> ", " <> printf "%0.2f" (semitoneError semitone) <> ")"
 
 semitone :: Double -> Semitone
 semitone s = Semitone $ 2**(s/12)
@@ -42,3 +47,6 @@ findNote s = notes !! noteNumber ++ show noteOctave
         semitone = unSemitone' s
         noteNumber = fromIntegral semitone `mod` 12
         noteOctave = (fromIntegral $ semitone + 9) `div` 12 + 4
+
+toFrequency :: Semitone -> String
+toFrequency (Semitone s) = printf "%0.2f" $ 440 * s

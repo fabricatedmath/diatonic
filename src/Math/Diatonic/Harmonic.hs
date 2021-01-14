@@ -8,6 +8,8 @@ module Math.Diatonic.Harmonic
     , harmonicValue, harmonicProducts
     , harmonicsWithError -- , harmonicTension
     , harmonicProductToSum
+    , module Control.Arrow
+    , rationalId
     ) where
 
 import Control.Arrow ((&&&))
@@ -58,6 +60,9 @@ data HarmonicValue a = HarmonicValue (V3 a) HarmonicLocation
 --
 perfectTriad :: V3 Rational
 perfectTriad = V3 (4/4) (5/4) (6/4)
+
+rationalId :: Rational -> Rational
+rationalId = id
 
 -- | Harmonics
 harmonics :: (Num a, Ord a) => V3 a -> V4 (HarmonicValue a)
