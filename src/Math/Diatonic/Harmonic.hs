@@ -70,8 +70,9 @@ harmonics v = HarmonicValue (sortV3 v) <$> placeholders
     where placeholders = V4 HarmonicLeft HarmonicMidLeft HarmonicMidRight HarmonicRight
 
 -- TODO: add restriction for ratios and frequencies only
-harmonicsWithError :: V3 Semitone -> V4 (Double, V4 Semitone)
-harmonicsWithError v@(V3 a b c) = (semitoneError &&& (V4 a b c)) . harmonicValue <$> harmonics v
+harmonicsWithError :: V3 Semitone -> V4 (Double, V4 Semitone, V3 Semitone)
+harmonicsWithError v@(V3 a b c) = (\value -> (semitoneError (harmonicValue value), V4 a b c (harmonicValue value), harmonicProducts value)) <$> harmonics v
+    --(semitoneError &&& (V4 a b c)) . harmonicValue <$> harmonics v
 
 {-
 harmonicTension :: V4 Semitone -> Frequency

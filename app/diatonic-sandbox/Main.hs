@@ -46,24 +46,24 @@ filterOn :: (Foldable t, Ord a, Ord (t a), Sortable (t a)) => (b -> t a) -> (a,a
 filterOn accessor (minv,maxv) = filter inRange
     where inRange b = let v = accessor b in all (>= minv) v && all (<= maxv) v
 
-allBestHarmonics :: (Semitone,Semitone) -> [(Double, V4 Semitone)]
-allBestHarmonics  r@(lowRange, highRange) = filterOn snd r $ concatMap (toList . harmonicsWithError) semitones 
-    where semitones = fmap semitone' <$> pick3Anchored 0 24
+allBestHarmonics :: (Semitone,Semitone) -> [(Double, V4 Semitone, V3 Semitone)]
+allBestHarmonics  r@(lowRange, highRange) = filterOn (\(a,b,c) -> b) r $ concatMap (toList . harmonicsWithError) semitones 
+    where semitones = fmap semitone' <$> pick3Anchored (-48) 24
 
-sortedHarmonics :: [(Double, V4 Semitone)]
-sortedHarmonics = sortedNub $ map (first abs) $ map (second sortV4) $ allBestHarmonics (c5,c8)
+sortedHarmonics :: [(Double, V4 Semitone, V3 Semitone)]
+sortedHarmonics = sortedNub $ map (\(a,b,c) -> (abs a, sortV4 b, c)) $ allBestHarmonics (c5,c8)
 
 main :: IO ()
 main = 
     do
-        let list = sortedNub $ map (first abs) $ map (second sortV4) $ allBestHarmonics (a3,a6)
+        let list = sortedNub $ map (\(a,b,c) -> (abs a, sortV4 b, c)) $ allBestHarmonics (a0,a8)
         mapM_ print list
-        return ()
-        let duration = 480 * 2
+        --return ()
+        --let duration = 480 * 2
         --let harmonicChords = allBestHarmonics (a3,a6)
         --mapM_ print $ map (fmap findNoteFromSemitone) harmonicChords
-        gen <- newStdGen
+        --gen <- newStdGen
         --let shuffledChords = shuffle' harmonicChords (length harmonicChords) gen
         --exportFile "chords.mid" $ midiChords duration $ harmonicChords
-        exportFile "chords.mid" $ midiChords duration $ map snd list
+        --exportFile "chords.mid" $ midiChords duration $ map snd list
         
